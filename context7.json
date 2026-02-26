@@ -1,0 +1,15 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "Brainiall LLM Gateway",
+  "description": "Production-ready OpenAI-compatible API gateway providing unified access to 113+ language models from 17 providers via AWS Bedrock with streaming, tool calling, vision, JSON mode, and 35-50% cost savings through Flex pricing",
+  "folders": [],
+  "excludeFolders": ["dist", "build", ".git", "__pycache__", "*.egg-info", "tests"],
+  "excludeFiles": ["CHANGELOG.md", "LICENSE"],
+  "rules": [
+    "Use standard OpenAI SDK with base_url pointing to Brainiall gateway",
+    "Authentication via Bearer token, api-key header, or Ocp-Apim-Subscription-Key",
+    "Use streaming for real-time responses with stream=True",
+    "Use response_format for JSON mode output",
+    "Models support tool calling and structured output"
+  ]
+}
