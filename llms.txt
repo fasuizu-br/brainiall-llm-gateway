@@ -1,0 +1,46 @@
+# Brainiall LLM Gateway
+
+> OpenAI-compatible API gateway providing access to 113+ AI models from 17 providers via AWS Bedrock. 35-50% cheaper than direct API pricing.
+
+## Base URL
+
+https://apim-ai-apis.azure-api.net/v1
+
+## Authentication
+
+Use any one of: `Authorization: Bearer KEY`, `api-key: KEY`, or `Ocp-Apim-Subscription-Key: KEY`
+
+## Endpoints
+
+- POST /v1/chat/completions — Chat completion (streaming supported)
+- GET /v1/models — List available models
+
+## Top Models
+
+- claude-opus-4-6 ($5/$25 per MTok)
+- claude-sonnet-4-6 ($3/$15 per MTok)
+- claude-haiku-4-5 ($1/$5 per MTok)
+- deepseek-r1 ($1.35/$5.40 per MTok)
+- deepseek-v3 ($0.27/$1.10 per MTok)
+- llama-3.3-70b ($0.72/$0.72 per MTok)
+- nova-pro ($0.80/$3.20 per MTok)
+- nova-micro ($0.035/$0.14 per MTok)
+- mistral-large-3 ($2/$6 per MTok)
+
+## Features
+
+- OpenAI SDK compatible (Python, JavaScript, curl)
+- Streaming (SSE)
+- Tool/function calling
+- Vision (image inputs)
+- JSON mode / structured outputs
+- 113+ models, 17 providers
+
+## Links
+
+- Documentation: https://github.com/fasuizu-br/brainiall-llm-gateway
+- Full docs: https://github.com/fasuizu-br/brainiall-llm-gateway/blob/main/llms-full.txt
+- Get API Key: https://brainiall.com
+- Speech AI: https://github.com/fasuizu-br/speech-ai-examples
+- NLP APIs: https://github.com/fasuizu-br/brainiall-nlp-api
+- Image APIs: https://github.com/fasuizu-br/brainiall-image-api

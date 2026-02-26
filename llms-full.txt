@@ -1,0 +1,475 @@
+# Brainiall LLM Gateway — Full Documentation
+
+## Overview
+
+Brainiall LLM Gateway is a production-ready, OpenAI-compatible API gateway that provides unified access to 113+ language models from 17 providers via AWS Bedrock. It supports streaming, tool/function calling, vision, JSON mode, and structured outputs.
+
+The gateway passes through standard Bedrock pricing with 35-50% savings available via Flex pricing tier, prompt caching, and cross-region inference.
+
+## Base URL
+
+https://apim-ai-apis.azure-api.net/v1
+
+## Authentication
+
+Three authentication methods are supported (use any one):
+
+1. Bearer Token: `Authorization: Bearer YOUR_KEY` (OpenAI SDK standard)
+2. API Key Header: `api-key: YOUR_KEY` (Azure OpenAI standard)
+3. Subscription Key: `Ocp-Apim-Subscription-Key: YOUR_KEY` (APIM native)
+
+Get your API key at https://brainiall.com
+
+## Endpoints
+
+### POST /v1/chat/completions
+
+Create a chat completion. Supports streaming via `stream: true`.
+
+Request body:
+- model (string, required): Model ID from the models list
+- messages (array, required): Array of message objects with role and content
+- stream (boolean, optional): Enable streaming (default: false)
+- temperature (number, optional): Sampling temperature 0-2 (default: 1)
+- max_tokens (integer, optional): Maximum tokens to generate
+- tools (array, optional): List of tool definitions for function calling
+- tool_choice (string/object, optional): Tool selection strategy ("auto", "none", "required", or specific)
+- response_format (object, optional): Force JSON output with {"type": "json_object"} or {"type": "json_schema", "json_schema": {...}}
+- top_p (number, optional): Nucleus sampling parameter
+- stop (string/array, optional): Stop sequences
+
+Response:
+- id (string): Unique completion ID
+- object (string): "chat.completion"
+- model (string): Model used
+- choices (array): Array of choice objects
+  - index (integer): Choice index
+  - message (object): Assistant message with role, content, and optional tool_calls
+  - finish_reason (string): "stop", "tool_calls", "length", or "content_filter"
+- usage (object): Token usage with prompt_tokens, completion_tokens, total_tokens
+
+### GET /v1/models
+
+List all available models.
+
+Response:
+- object (string): "list"
+- data (array): Array of model objects
+  - id (string): Model ID
+  - object (string): "model"
+  - owned_by (string): Provider name
+
+## Complete Model List with Pricing
+
+### Anthropic Claude
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| claude-opus-4-6 | $5.00 | $25.00 | 200K | 64K |
+| claude-sonnet-4-6 | $3.00 | $15.00 | 200K | 64K |
+| claude-haiku-4-5 | $1.00 | $5.00 | 200K | 8K |
+| claude-opus-4-5 | $15.00 | $75.00 | 200K | 32K |
+
+### DeepSeek
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| deepseek-r1 | $1.35 | $5.40 | 128K | 64K |
+| deepseek-v3 | $0.27 | $1.10 | 128K | 64K |
+
+### Meta Llama
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| llama-3.3-70b | $0.72 | $0.72 | 128K | 4K |
+| llama-3.1-405b | $2.40 | $2.40 | 128K | 4K |
+| llama-3.1-70b | $0.72 | $0.72 | 128K | 4K |
+| llama-3.1-8b | $0.22 | $0.22 | 128K | 4K |
+| llama-4-scout-17b | $0.17 | $0.17 | 512K | 64K |
+| llama-4-maverick-17b | $0.20 | $0.60 | 512K | 64K |
+
+### Alibaba Qwen
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| qwen3-235b | $0.80 | $2.40 | 128K | 8K |
+| qwen3-30b | $0.13 | $0.50 | 128K | 8K |
+| qwen3-8b | $0.045 | $0.18 | 128K | 8K |
+
+### Amazon Nova
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| nova-pro | $0.80 | $3.20 | 300K | 5K |
+| nova-lite | $0.06 | $0.24 | 300K | 5K |
+| nova-micro | $0.035 | $0.14 | 128K | 5K |
+
+### Mistral
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| mistral-large-3 | $2.00 | $6.00 | 128K | 8K |
+| mistral-small-3 | $0.10 | $0.30 | 128K | 8K |
+| ministral-8b | $0.10 | $0.10 | 128K | 8K |
+| pixtral-12b | $0.15 | $0.15 | 128K | 8K |
+
+### MiniMax
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| minimax-m2 | $0.50 | $2.20 | 1M | 16K |
+
+### AI21
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| jamba-2-0-large | $2.00 | $8.00 | 256K | 4K |
+| jamba-2-0-mini | $0.20 | $0.40 | 256K | 4K |
+
+### NVIDIA
+| Model ID | Input $/MTok | Output $/MTok | Context | Max Output |
+|----------|-------------|--------------|---------|------------|
+| nemotron-70b | $0.72 | $0.72 | 128K | 4K |
+
+## Flex Pricing
+
+All models support Bedrock Flex tier at 50% discount on both input and output tokens. Flex requests are synchronous but may have variable latency. Flex routing is handled automatically by the gateway when configured.
+
+## Feature Support Matrix
+
+| Feature | Claude | DeepSeek | Llama | Qwen | Nova | Mistral | MiniMax |
+|---------|--------|----------|-------|------|------|---------|---------|
+| Streaming | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Tools/Functions | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Vision | Yes | No | Scout/Mav | No | Yes | Pixtral | No |
+| JSON Mode | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Reasoning | No | R1 | No | Yes (Think) | No | No | No |
+
+## Code Examples
+
+### Python: Basic Chat Completion
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://apim-ai-apis.azure-api.net/v1",
+    api_key="YOUR_KEY"
+)
+
+response = client.chat.completions.create(
+    model="claude-sonnet-4-6",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain quantum computing in simple terms."}
+    ],
+    temperature=0.7,
+    max_tokens=1024
+)
+print(response.choices[0].message.content)
+print(f"Tokens used: {response.usage.total_tokens}")
+```
+
+### Python: Streaming with Token Counting
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://apim-ai-apis.azure-api.net/v1",
+    api_key="YOUR_KEY"
+)
+
+stream = client.chat.completions.create(
+    model="deepseek-r1",
+    messages=[{"role": "user", "content": "Solve: what is 25! / 23!"}],
+    stream=True,
+    max_tokens=2048
+)
+
+full_response = ""
+for chunk in stream:
+    delta = chunk.choices[0].delta
+    if delta.content:
+        full_response += delta.content
+        print(delta.content, end="", flush=True)
+print(f"\n\nTotal length: {len(full_response)} chars")
+```
+
+### Python: Multi-Tool Agent
+
+```python
+from openai import OpenAI
+import json
+
+client = OpenAI(
+    base_url="https://apim-ai-apis.azure-api.net/v1",
+    api_key="YOUR_KEY"
+)
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "search_database",
+            "description": "Search a database for records matching a query",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "Search query"},
+                    "table": {"type": "string", "enum": ["users", "orders", "products"]},
+                    "limit": {"type": "integer", "description": "Max results", "default": 10}
+                },
+                "required": ["query", "table"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "send_email",
+            "description": "Send an email to a recipient",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "to": {"type": "string", "description": "Recipient email"},
+                    "subject": {"type": "string", "description": "Email subject"},
+                    "body": {"type": "string", "description": "Email body text"}
+                },
+                "required": ["to", "subject", "body"]
+            }
+        }
+    }
+]
+
+messages = [
+    {"role": "user", "content": "Find the top 5 users by order count and send a summary to admin@company.com"}
+]
+
+response = client.chat.completions.create(
+    model="claude-sonnet-4-6",
+    messages=messages,
+    tools=tools,
+    tool_choice="auto"
+)
+
+# Process tool calls
+message = response.choices[0].message
+if message.tool_calls:
+    for tc in message.tool_calls:
+        print(f"Tool: {tc.function.name}")
+        print(f"Args: {json.dumps(json.loads(tc.function.arguments), indent=2)}")
+```
+
+### JavaScript: Streaming Chat
+
+```javascript
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  apiKey: "YOUR_KEY",
+});
+
+async function streamChat(prompt) {
+  const stream = await client.chat.completions.create({
+    model: "claude-sonnet-4-6",
+    messages: [{ role: "user", content: prompt }],
+    stream: true,
+  });
+
+  let fullResponse = "";
+  for await (const chunk of stream) {
+    const content = chunk.choices[0]?.delta?.content;
+    if (content) {
+      fullResponse += content;
+      process.stdout.write(content);
+    }
+  }
+  console.log("\n---");
+  console.log(`Response length: ${fullResponse.length} chars`);
+  return fullResponse;
+}
+
+await streamChat("Write a Python function to implement binary search");
+```
+
+### JavaScript: Vision Analysis
+
+```javascript
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  apiKey: "YOUR_KEY",
+});
+
+const response = await client.chat.completions.create({
+  model: "claude-sonnet-4-6",
+  messages: [
+    {
+      role: "user",
+      content: [
+        { type: "text", text: "Describe this image in detail." },
+        {
+          type: "image_url",
+          image_url: { url: "https://example.com/image.jpg" },
+        },
+      ],
+    },
+  ],
+  max_tokens: 1024,
+});
+
+console.log(response.choices[0].message.content);
+```
+
+### curl: Complete Example
+
+```bash
+# Basic chat completion
+curl -s -X POST https://apim-ai-apis.azure-api.net/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_KEY" \
+  -d '{
+    "model": "claude-haiku-4-5",
+    "messages": [
+      {"role": "system", "content": "You are a concise assistant."},
+      {"role": "user", "content": "What is the capital of France?"}
+    ],
+    "max_tokens": 100
+  }' | python3 -m json.tool
+
+# Streaming
+curl -s -N -X POST https://apim-ai-apis.azure-api.net/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_KEY" \
+  -d '{
+    "model": "nova-micro",
+    "messages": [{"role": "user", "content": "Count from 1 to 10"}],
+    "stream": true
+  }'
+
+# List models
+curl -s https://apim-ai-apis.azure-api.net/v1/models \
+  -H "Authorization: Bearer YOUR_KEY" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+for m in sorted(data['data'], key=lambda x: x['id']):
+    print(f\"{m['id']:40s} {m['owned_by']}\")
+"
+```
+
+### LangChain: RAG Pipeline
+
+```python
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_core.prompts import ChatPromptTemplate
+
+llm = ChatOpenAI(
+    base_url="https://apim-ai-apis.azure-api.net/v1",
+    api_key="YOUR_KEY",
+    model="claude-sonnet-4-6",
+    temperature=0,
+    streaming=True
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Answer the question based on the context:\n\n{context}"),
+    ("user", "{question}")
+])
+
+chain = prompt | llm
+response = chain.invoke({
+    "context": "Python was created by Guido van Rossum and first released in 1991. It emphasizes code readability.",
+    "question": "When was Python created and by whom?"
+})
+print(response.content)
+```
+
+### Vercel AI SDK: Next.js Route
+
+```typescript
+import { createOpenAI } from "@ai-sdk/openai";
+import { streamText } from "ai";
+
+const brainiall = createOpenAI({
+  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  apiKey: process.env.BRAINIALL_API_KEY!,
+});
+
+export async function POST(req: Request) {
+  const { messages } = await req.json();
+
+  const result = streamText({
+    model: brainiall("claude-sonnet-4-6"),
+    messages,
+  });
+
+  return result.toDataStreamResponse();
+}
+```
+
+## Integration Configs
+
+### Cline (VS Code)
+Provider: OpenAI Compatible
+Base URL: https://apim-ai-apis.azure-api.net/v1
+API Key: YOUR_KEY
+Model: claude-sonnet-4-6
+
+### Continue.dev (~/.continue/config.yaml)
+```yaml
+models:
+  - model: claude-sonnet-4-6
+    title: Brainiall Sonnet
+    provider: openai
+    apiBase: https://apim-ai-apis.azure-api.net/v1
+    apiKey: YOUR_KEY
+```
+
+### Aider
+```bash
+export OPENAI_API_BASE=https://apim-ai-apis.azure-api.net/v1
+export OPENAI_API_KEY=YOUR_KEY
+aider --model openai/claude-sonnet-4-6
+```
+
+### Open WebUI
+```bash
+docker run -d -p 3000:8080 \
+  -e OPENAI_API_BASE_URLS="https://apim-ai-apis.azure-api.net/v1" \
+  -e OPENAI_API_KEYS="YOUR_KEY" \
+  ghcr.io/open-webui/open-webui:main
+```
+
+### SillyTavern
+API: Chat Completion > Custom (OpenAI-compatible)
+Endpoint: https://apim-ai-apis.azure-api.net/v1
+Key: YOUR_KEY
+
+### n8n
+Credential Type: OpenAI API
+API Key: YOUR_KEY
+Base URL: https://apim-ai-apis.azure-api.net/v1
+
+## Error Codes
+
+| HTTP Code | Meaning | Action |
+|-----------|---------|--------|
+| 400 | Bad request (invalid model, missing fields) | Check request body |
+| 401 | Invalid or missing API key | Verify your API key |
+| 403 | Forbidden (insufficient plan) | Upgrade your plan |
+| 429 | Rate limit exceeded | Retry with backoff |
+| 500 | Internal server error | Retry or contact support |
+| 503 | Model temporarily unavailable | Try a different model |
+
+## Rate Limits
+
+| Plan | RPM | Models |
+|------|-----|--------|
+| Free | 10 | All |
+| Basic ($29/mo) | 100 | All |
+| Pro ($79/mo) | 500 | All |
+| Enterprise ($199/mo) | 2,000 | All + priority routing |
+
+## Links
+
+- Website: https://brainiall.com
+- Get API Key: https://brainiall.com
+- Status: https://apim-ai-apis.azure-api.net/v1/health
+- Speech AI APIs: https://github.com/fasuizu-br/speech-ai-examples
+- NLP APIs: https://github.com/fasuizu-br/brainiall-nlp-api
+- Image APIs: https://github.com/fasuizu-br/brainiall-image-api
