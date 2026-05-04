@@ -1,21 +1,21 @@
 # Brainiall LLM Gateway
 
-**113+ AI models via a single OpenAI-compatible API.** Access Claude, DeepSeek, Llama, Qwen, Nova, Mistral, and more through AWS Bedrock at 35-50% lower cost.
+**104 AI models via a single OpenAI-compatible API.** Access Claude 4.7, GPT-5, Gemini 3, Llama 4, DeepSeek, Mistral and more for **$5.99/mo flat** — predictable, no per-token surprises.
 
 ## Overview
 
-Brainiall LLM Gateway is a production-ready API gateway that provides OpenAI-compatible access to 113+ language models from 17 providers via AWS Bedrock. It supports streaming, tool/function calling, vision, and structured outputs.
+Brainiall LLM Gateway is a production-ready API gateway that provides OpenAI-compatible access to 104 curated AI models (LLMs, image, video, voice) (EU-hosted, GDPR/AI Act compliant). It supports streaming, tool/function calling, vision, and structured outputs.
 
-**Base URL:** `https://apim-ai-apis.azure-api.net/v1`
+**Base URL:** `https://api.brainiall.com/v1`
 
 **Key Features:**
 - OpenAI SDK compatible (drop-in replacement)
-- 113+ models from 17 providers
+- 104 curated models
 - Streaming support (SSE)
 - Tool/function calling
 - Vision (image inputs)
 - JSON mode / structured outputs
-- 35-50% cheaper via Bedrock Flex pricing, prompt caching, and cross-region inference
+- $5.99/mo flat pricing — predictable cost, no per-token surprises
 
 ## Authentication
 
@@ -24,7 +24,7 @@ Three authentication methods are supported. Use any one:
 | Method | Header | Example |
 |--------|--------|---------|
 | Bearer Token | `Authorization: Bearer YOUR_KEY` | OpenAI SDK standard |
-| API Key | `api-key: YOUR_KEY` | Azure OpenAI standard |
+| API Key | `api-key: YOUR_KEY` | OpenAI standard |
 | Subscription Key | `Ocp-Apim-Subscription-Key: YOUR_KEY` | APIM native |
 
 Get your API key at [brainiall.com](https://brainiall.com).
@@ -37,7 +37,7 @@ Get your API key at [brainiall.com](https://brainiall.com).
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -54,7 +54,7 @@ print(response.choices[0].message.content)
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  baseURL: "https://api.brainiall.com/v1",
   apiKey: "YOUR_KEY",
 });
 
@@ -68,7 +68,7 @@ console.log(response.choices[0].message.content);
 ### curl
 
 ```bash
-curl -X POST https://apim-ai-apis.azure-api.net/v1/chat/completions \
+curl -X POST https://api.brainiall.com/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_KEY" \
   -d '{
@@ -85,7 +85,7 @@ curl -X POST https://apim-ai-apis.azure-api.net/v1/chat/completions \
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -107,7 +107,7 @@ print()
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  baseURL: "https://api.brainiall.com/v1",
   apiKey: "YOUR_KEY",
 });
 
@@ -127,7 +127,7 @@ console.log();
 ### curl Streaming
 
 ```bash
-curl -X POST https://apim-ai-apis.azure-api.net/v1/chat/completions \
+curl -X POST https://api.brainiall.com/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_KEY" \
   -N \
@@ -147,7 +147,7 @@ from openai import OpenAI
 import json
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -198,7 +198,7 @@ if message.tool_calls:
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  baseURL: "https://api.brainiall.com/v1",
   apiKey: "YOUR_KEY",
 });
 
@@ -249,7 +249,7 @@ if (message.tool_calls) {
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -280,7 +280,7 @@ print(json.dumps(data, indent=2))
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -310,7 +310,7 @@ print(response.choices[0].message.content)
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -342,7 +342,7 @@ print(f"Assistant: {response.choices[0].message.content}")
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -352,7 +352,7 @@ for model in models.data:
 ```
 
 ```bash
-curl -s https://apim-ai-apis.azure-api.net/v1/models \
+curl -s https://api.brainiall.com/v1/models \
   -H "Authorization: Bearer YOUR_KEY" | python3 -m json.tool
 ```
 
@@ -379,14 +379,14 @@ curl -s https://apim-ai-apis.azure-api.net/v1/models \
 | `minimax-m2` | MiniMax | $0.50 | $2.20 | 1M | Tools, JSON |
 | `jamba-2-0-large` | AI21 | $2.00 | $8.00 | 256K | Tools, JSON |
 
-**Flex Pricing:** All models support Bedrock Flex tier at 50% discount (synchronous, variable latency).
+**Flex Pricing:** All models accessible at $5.99/mo flat — no usage caps within fair-use policy.
 
 ## Integration Examples
 
 ### Cline (VS Code Extension)
 
 In Cline settings, select "OpenAI Compatible" provider:
-- Base URL: `https://apim-ai-apis.azure-api.net/v1`
+- Base URL: `https://api.brainiall.com/v1`
 - API Key: `YOUR_KEY`
 - Model: `claude-sonnet-4-6`
 
@@ -399,24 +399,24 @@ models:
   - model: claude-sonnet-4-6
     title: Brainiall Claude Sonnet
     provider: openai
-    apiBase: https://apim-ai-apis.azure-api.net/v1
+    apiBase: https://api.brainiall.com/v1
     apiKey: YOUR_KEY
   - model: claude-haiku-4-5
     title: Brainiall Claude Haiku
     provider: openai
-    apiBase: https://apim-ai-apis.azure-api.net/v1
+    apiBase: https://api.brainiall.com/v1
     apiKey: YOUR_KEY
 ```
 
 ### Aider
 
 ```bash
-export OPENAI_API_BASE=https://apim-ai-apis.azure-api.net/v1
+export OPENAI_API_BASE=https://api.brainiall.com/v1
 export OPENAI_API_KEY=YOUR_KEY
 aider --model openai/claude-sonnet-4-6
 ```
 
-### Claude Code (via Bedrock)
+### Claude Code
 
 ```bash
 export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-6-20250514-v1:0
@@ -428,7 +428,7 @@ claude --model $ANTHROPIC_MODEL
 
 1. Go to API Connections > Chat Completion
 2. Select "Custom (OpenAI-compatible)"
-3. Custom Endpoint: `https://apim-ai-apis.azure-api.net/v1`
+3. Custom Endpoint: `https://api.brainiall.com/v1`
 4. API Key: `YOUR_KEY`
 5. Select model from dropdown
 
@@ -436,7 +436,7 @@ claude --model $ANTHROPIC_MODEL
 
 ```bash
 docker run -d -p 3000:8080 \
-  -e OPENAI_API_BASE_URLS="https://apim-ai-apis.azure-api.net/v1" \
+  -e OPENAI_API_BASE_URLS="https://api.brainiall.com/v1" \
   -e OPENAI_API_KEYS="YOUR_KEY" \
   ghcr.io/open-webui/open-webui:main
 ```
@@ -447,7 +447,7 @@ docker run -d -p 3000:8080 \
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY",
     model="claude-sonnet-4-6",
     streaming=True
@@ -474,7 +474,7 @@ def add(a: int, b: int) -> int:
     return a + b
 
 llm = ChatOpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY",
     model="claude-sonnet-4-6"
 )
@@ -488,7 +488,7 @@ print(response.tool_calls)
 
 1. Create a new credential: "OpenAI API" type
 2. API Key: `YOUR_KEY`
-3. Base URL: `https://apim-ai-apis.azure-api.net/v1`
+3. Base URL: `https://api.brainiall.com/v1`
 4. Use the "Chat Model" or "OpenAI" node with your credential
 
 ### Vercel AI SDK
@@ -498,7 +498,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
 const brainiall = createOpenAI({
-  baseURL: "https://apim-ai-apis.azure-api.net/v1",
+  baseURL: "https://api.brainiall.com/v1",
   apiKey: "YOUR_KEY",
 });
 
@@ -515,7 +515,7 @@ console.log(text);
 from crewai import Agent, Crew, Task
 import os
 
-os.environ["OPENAI_API_BASE"] = "https://apim-ai-apis.azure-api.net/v1"
+os.environ["OPENAI_API_BASE"] = "https://api.brainiall.com/v1"
 os.environ["OPENAI_API_KEY"] = "YOUR_KEY"
 os.environ["OPENAI_MODEL_NAME"] = "claude-sonnet-4-6"
 
@@ -542,7 +542,7 @@ print(result)
 from openai import OpenAI, APIError, RateLimitError, AuthenticationError
 
 client = OpenAI(
-    base_url="https://apim-ai-apis.azure-api.net/v1",
+    base_url="https://api.brainiall.com/v1",
     api_key="YOUR_KEY"
 )
 
@@ -574,7 +574,7 @@ except APIError as e:
 - Website: [brainiall.com](https://brainiall.com)
 - API Documentation: [brainiall.com/docs-page](https://brainiall-portal.thankfulfield-a7857897.eastus.azurecontainerapps.io/docs-page)
 - Get API Key: [brainiall.com](https://brainiall.com)
-- Status: [brainiall.com/health](https://apim-ai-apis.azure-api.net/v1/health)
+- Status: [brainiall.com/health](https://api.brainiall.com/v1/health)
 - Speech AI APIs: [github.com/fasuizu-br/speech-ai-examples](https://github.com/fasuizu-br/speech-ai-examples)
 - NLP APIs: [github.com/fasuizu-br/brainiall-nlp-api](https://github.com/fasuizu-br/brainiall-nlp-api)
 - Image APIs: [github.com/fasuizu-br/brainiall-image-api](https://github.com/fasuizu-br/brainiall-image-api)
