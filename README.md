@@ -149,3 +149,14 @@ LangChain · LlamaIndex · Vercel AI SDK · n8n · Continue.dev · Cline · Clou
 ## License
 
 MIT
+
+---
+
+## Recently shipped (May 2026)
+
+- 📊 [Real cost analysis: 7 LLM gateways tested with $100 budget](https://chat.brainiall.com/blog-real-cost-7-llm-gateways-tested-may-2026)
+- 🧮 [AI Subscription Savings Calculator](https://chat.brainiall.com/savings-calculator) — see your monthly savings switching to flat $5.99/mo
+- 📦 [Free embeddable widgets](https://chat.brainiall.com/widgets) — 3 cross-origin JS widgets for any site (cost calculator, badge, comparison card)
+- 🔄 [All 38+ alternatives](https://chat.brainiall.com/alternatives/) — Brainiall vs OpenAI, Anthropic, OpenRouter, Groq, LiteLLM, Portkey, Bifrost, MegaLLM, and more
+
+_Last updated: 2026-05-04_
