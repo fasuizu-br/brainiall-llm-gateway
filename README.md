@@ -1,583 +1,150 @@
 # Brainiall LLM Gateway
 
-**104 AI models via a single OpenAI-compatible API.** Access Claude 4.7, GPT-5, Gemini 3, Llama 4, DeepSeek, Mistral and more for **$5.99/mo flat** — predictable, no per-token surprises.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Models](https://img.shields.io/badge/AI%20Models-104-blue)](https://chat.brainiall.com/v1/models)
+[![Pricing](https://img.shields.io/badge/Pricing-%245.99%2Fmo%20flat-green)](https://chat.brainiall.com/pricing)
+[![EU Hosted](https://img.shields.io/badge/EU%20Hosted-Frankfurt%20%2B%20Madrid-blueviolet)](https://chat.brainiall.com)
+[![GDPR](https://img.shields.io/badge/GDPR-compliant-success)](https://chat.brainiall.com/dpa)
+[![AI Act](https://img.shields.io/badge/AI%20Act-Article%2050-success)](https://chat.brainiall.com/ai-disclosure)
+[![OpenAI Compatible](https://img.shields.io/badge/OpenAI%20SDK-compatible-orange)](https://chat.brainiall.com/openai-compatible-providers)
 
-## Overview
+**104 AI models behind one OpenAI-compatible API.** Access Claude 4.7, GPT-5, Gemini 3 Pro, Llama 4, DeepSeek R1, Mistral and more for **$5.99/mo flat** — predictable, no per-token surprises.
 
-Brainiall LLM Gateway is a production-ready API gateway that provides OpenAI-compatible access to 104 curated AI models (LLMs, image, video, voice) (EU-hosted, GDPR/AI Act compliant). It supports streaming, tool/function calling, vision, and structured outputs.
+→ **[Free 7-day Pro trial at chat.brainiall.com](https://chat.brainiall.com)** (no credit card required)
 
-**Base URL:** `https://api.brainiall.com/v1`
+## Quick Start (30 seconds)
 
-**Key Features:**
-- OpenAI SDK compatible (drop-in replacement)
-- 104 curated models
-- Streaming support (SSE)
-- Tool/function calling
-- Vision (image inputs)
-- JSON mode / structured outputs
-- $5.99/mo flat pricing — predictable cost, no per-token surprises
+Drop-in replacement for OpenAI SDK — change two lines:
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://api.brainiall.com/v1",  # CHANGE this
+    api_key="brnl-...",                         # CHANGE this
+)
+
+response = client.chat.completions.create(
+    model="claude-sonnet-4-7",  # also: gpt-5, gemini-3-pro, llama-4-maverick, deepseek-r1
+    messages=[{"role": "user", "content": "Hello!"}],
+)
+print(response.choices[0].message.content)
+```
+
+That's it. Your existing code (function calling, streaming, JSON mode, vision) works unchanged.
+
+## Why Brainiall?
+
+- **Single API key** for 104 models (Claude, GPT, Gemini, Llama, DeepSeek, Mistral, Cohere)
+- **$5.99/mo flat** — predictable cost (vs per-token surprises that hit $300/mo from runaway agents)
+- **EU-hosted** bare-metal (Frankfurt + Madrid) — GDPR + AI Act Article 50 compliant
+- **Multi-currency native** (USD / EUR / BRL — PIX/Boleto coming Q2 2026)
+- **Bundled multimodal**: chat + embeddings + speech (TTS/STT) + vision + image gen — all flat plan
+- **Drop-in OpenAI SDK** — works with LangChain, LlamaIndex, Vercel AI SDK, n8n, Continue.dev, Cline
+- **No training on customer data** + signed DPA + Article 50 transparency
+
+## Documentation
+
+### 📚 Full Guides (GitHub Issues)
+
+- **[Roadmap Q2-Q3 2026 + Use Cases](../../issues/1)** — community input welcome
+- **[FAQ — Common Questions](../../issues/2)** — Brainiall vs OpenRouter / Cloudflare AI Gateway
+- **[Integration Examples](../../issues/3)** — LangChain, LlamaIndex, Vercel AI SDK, n8n, Continue.dev, Cline
+- **[Migration Guide](../../issues/4)** — From OpenAI / Anthropic / OpenRouter (5-min switch)
+- **[Performance & Latency](../../issues/5)** — Real measured P50/P95 numbers + reproducible benchmark
+- **[Pricing Calculator](../../issues/6)** — Break-even analysis vs per-token providers
+
+### 💻 Code Tutorials (Public Gists)
+
+- **[Python Tutorial](https://gist.github.com/fasuizu-br/fd1b2bd91dd616516456e8d84257fd31)** (12 examples — chat, streaming, tools, vision, JSON, embeddings, RAG, STT, TTS, image gen, agent loop, model comparison)
+- **[TypeScript / Node.js Tutorial](https://gist.github.com/fasuizu-br/ab61e67356d7df9bbc3c32362ff9417e)** (12 examples + Vercel AI SDK + Cloudflare Workers)
+- **[Bash / curl CLI](https://gist.github.com/fasuizu-br/52e4f74701c87817dfa17df181184e7e)** (13 patterns + CI/CD health gate)
+- **[n8n Workflow JSON](https://gist.github.com/fasuizu-br/46e94a944348e98723f24150c19d4483)** (importable: chat + embeddings + TTS)
+- **[Go Client](https://gist.github.com/fasuizu-br/49834336ac65c712f8579e6c33c93b3a)** (dependency-free `net/http` + K8s sidecar example)
+
+## Available Models (104 curated)
+
+### Chat (60+ models)
+- **Claude** 4.7 Sonnet/Opus/Haiku, 4.6, 3.7
+- **GPT** 5, 4o, 4-turbo, o1, o3-mini
+- **Gemini** 3 Pro/Flash, 2.5
+- **Llama** 4 Maverick/Scout, 3.3
+- **DeepSeek** R1, V3
+- **Mistral** Large 2, Codestral, Pixtral
+- **Cohere** Command R+, R
+- ...and 40+ more
+
+### Embeddings
+- text-embedding-3-large (3072 dim)
+- text-embedding-3-small (1536 dim)
+
+### Vision (image-in)
+- GPT-5, Claude 4.7, Gemini 3 Pro
+
+### Speech
+- **STT**: Whisper-large-v3 + variants
+- **TTS**: Multiple voices, multi-language
+
+### Image Generation
+- FLUX.1 Pro, Schnell
+- Stable Diffusion XL
+- GPT-image-1
+
+### Video Generation (limited)
+- Seedance 2.0
+- Veo
+
+Full catalog: https://chat.brainiall.com/v1/models
 
 ## Authentication
 
-Three authentication methods are supported. Use any one:
-
-| Method | Header | Example |
-|--------|--------|---------|
-| Bearer Token | `Authorization: Bearer YOUR_KEY` | OpenAI SDK standard |
-| API Key | `api-key: YOUR_KEY` | OpenAI standard |
-| Subscription Key | `Ocp-Apim-Subscription-Key: YOUR_KEY` | APIM native |
-
-Get your API key at [brainiall.com](https://brainiall.com).
-
-## Quick Start
-
-### Python (OpenAI SDK)
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-response = client.chat.completions.create(
-    model="claude-sonnet-4-6",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
-print(response.choices[0].message.content)
-```
-
-### JavaScript (OpenAI SDK)
-
-```javascript
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  baseURL: "https://api.brainiall.com/v1",
-  apiKey: "YOUR_KEY",
-});
-
-const response = await client.chat.completions.create({
-  model: "claude-sonnet-4-6",
-  messages: [{ role: "user", content: "Hello!" }],
-});
-console.log(response.choices[0].message.content);
-```
-
-### curl
-
 ```bash
-curl -X POST https://api.brainiall.com/v1/chat/completions \
+# 1. Sign up at https://chat.brainiall.com (7-day free trial, no card)
+# 2. Settings → API Keys → Create Key
+# 3. Use the brnl-... key
+curl https://api.brainiall.com/v1/chat/completions \
+  -H "Authorization: Bearer brnl-..." \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_KEY" \
-  -d '{
-    "model": "claude-sonnet-4-6",
-    "messages": [{"role": "user", "content": "Hello!"}]
-  }'
+  -d '{"model": "claude-sonnet-4-7", "messages": [{"role": "user", "content": "Hello"}]}'
 ```
 
-## Streaming
+## Compliance + Trust
 
-### Python Streaming
+- **GDPR Article 28 DPA**: signed copy at https://chat.brainiall.com/dpa
+- **AI Act Article 50 transparency**: https://chat.brainiall.com/ai-disclosure
+- **Subprocessors**: https://chat.brainiall.com/subprocessors
+- **Security disclosure (RFC 9116)**: https://chat.brainiall.com/.well-known/security.txt
+- **SLA tiers**: 99.5% baseline / 99.9% Pro / 99.95% Enterprise — https://chat.brainiall.com/sla
+- **Status page**: https://chat.brainiall.com/status
 
-```python
-from openai import OpenAI
+## Honest Current State
 
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
+Brainiall is bootstrapped — no VC, built independently. Currently **23 users, 0 paying customers** (May 2026). This GitHub repo focuses on documentation + dev experience so future paying customers can find us via real reference material rather than marketing claims.
 
-stream = client.chat.completions.create(
-    model="claude-sonnet-4-6",
-    messages=[{"role": "user", "content": "Write a haiku about programming"}],
-    stream=True
-)
+We track public metrics + open roadmap. Star this repo if you want to follow progress.
 
-for chunk in stream:
-    if chunk.choices[0].delta.content:
-        print(chunk.choices[0].delta.content, end="", flush=True)
-print()
-```
+## What's Next
 
-### JavaScript Streaming
+See [Issue #1 Roadmap](../../issues/1) for Q2-Q3 2026 plan. Highlights:
 
-```javascript
-import OpenAI from "openai";
+- PIX/Boleto payment for Brazilian customers (Q2 2026)
+- Self-hosted enterprise option (Q3 2026)
+- Per-model usage analytics dashboard (Q3 2026)
+- LangChain + LlamaIndex official integration packages
+- ZenMux / Bifrost competitive comparison guides
 
-const client = new OpenAI({
-  baseURL: "https://api.brainiall.com/v1",
-  apiKey: "YOUR_KEY",
-});
+## Get Started
 
-const stream = await client.chat.completions.create({
-  model: "claude-sonnet-4-6",
-  messages: [{ role: "user", content: "Write a haiku about programming" }],
-  stream: true,
-});
+→ **Free 7-day Pro trial: [chat.brainiall.com](https://chat.brainiall.com)** (no credit card required)
+→ **Documentation**: [chat.brainiall.com/api](https://chat.brainiall.com/api)
+→ **Quickstart**: [chat.brainiall.com/start-1-minute](https://chat.brainiall.com/start-1-minute)
+→ **Pricing**: [chat.brainiall.com/pricing](https://chat.brainiall.com/pricing)
 
-for await (const chunk of stream) {
-  const content = chunk.choices[0]?.delta?.content;
-  if (content) process.stdout.write(content);
-}
-console.log();
-```
+## Want a Specific Integration?
 
-### curl Streaming
+Open an issue or comment on [#3 Integration Examples](../../issues/3). Common requests already covered:
 
-```bash
-curl -X POST https://api.brainiall.com/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_KEY" \
-  -N \
-  -d '{
-    "model": "claude-sonnet-4-6",
-    "messages": [{"role": "user", "content": "Write a haiku about programming"}],
-    "stream": true
-  }'
-```
-
-## Tool / Function Calling
-
-### Python Tool Calling
-
-```python
-from openai import OpenAI
-import json
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "get_weather",
-            "description": "Get the current weather for a location",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "location": {
-                        "type": "string",
-                        "description": "City name, e.g. 'San Francisco, CA'"
-                    },
-                    "unit": {
-                        "type": "string",
-                        "enum": ["celsius", "fahrenheit"],
-                        "description": "Temperature unit"
-                    }
-                },
-                "required": ["location"]
-            }
-        }
-    }
-]
-
-response = client.chat.completions.create(
-    model="claude-sonnet-4-6",
-    messages=[{"role": "user", "content": "What's the weather in Tokyo?"}],
-    tools=tools,
-    tool_choice="auto"
-)
-
-message = response.choices[0].message
-if message.tool_calls:
-    for tool_call in message.tool_calls:
-        print(f"Function: {tool_call.function.name}")
-        print(f"Arguments: {tool_call.function.arguments}")
-        args = json.loads(tool_call.function.arguments)
-        print(f"Location: {args['location']}")
-```
-
-### JavaScript Tool Calling
-
-```javascript
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  baseURL: "https://api.brainiall.com/v1",
-  apiKey: "YOUR_KEY",
-});
-
-const tools = [
-  {
-    type: "function",
-    function: {
-      name: "get_weather",
-      description: "Get the current weather for a location",
-      parameters: {
-        type: "object",
-        properties: {
-          location: {
-            type: "string",
-            description: "City name, e.g. 'San Francisco, CA'",
-          },
-          unit: {
-            type: "string",
-            enum: ["celsius", "fahrenheit"],
-            description: "Temperature unit",
-          },
-        },
-        required: ["location"],
-      },
-    },
-  },
-];
-
-const response = await client.chat.completions.create({
-  model: "claude-sonnet-4-6",
-  messages: [{ role: "user", content: "What's the weather in Tokyo?" }],
-  tools: tools,
-  tool_choice: "auto",
-});
-
-const message = response.choices[0].message;
-if (message.tool_calls) {
-  for (const toolCall of message.tool_calls) {
-    console.log(`Function: ${toolCall.function.name}`);
-    console.log(`Arguments: ${toolCall.function.arguments}`);
-  }
-}
-```
-
-## JSON Mode / Structured Outputs
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-response = client.chat.completions.create(
-    model="claude-sonnet-4-6",
-    messages=[
-        {"role": "system", "content": "Extract structured data from the user's text."},
-        {"role": "user", "content": "John Smith is 35 years old and works at Google as a senior engineer in Mountain View."}
-    ],
-    response_format={"type": "json_object"}
-)
-
-import json
-data = json.loads(response.choices[0].message.content)
-print(json.dumps(data, indent=2))
-# {
-#   "name": "John Smith",
-#   "age": 35,
-#   "company": "Google",
-#   "title": "Senior Engineer",
-#   "location": "Mountain View"
-# }
-```
-
-## Vision (Image Inputs)
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-response = client.chat.completions.create(
-    model="claude-sonnet-4-6",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {"type": "text", "text": "What do you see in this image?"},
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/320px-Camponotus_flavomarginatus_ant.jpg"
-                    }
-                }
-            ]
-        }
-    ]
-)
-print(response.choices[0].message.content)
-```
-
-## Multi-Turn Conversation
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-messages = [
-    {"role": "system", "content": "You are a helpful math tutor."},
-    {"role": "user", "content": "What is the derivative of x^3?"}
-]
-
-response = client.chat.completions.create(
-    model="claude-haiku-4-5",
-    messages=messages
-)
-assistant_msg = response.choices[0].message.content
-print(f"Assistant: {assistant_msg}")
-
-messages.append({"role": "assistant", "content": assistant_msg})
-messages.append({"role": "user", "content": "Now what about the integral of that result?"})
-
-response = client.chat.completions.create(
-    model="claude-haiku-4-5",
-    messages=messages
-)
-print(f"Assistant: {response.choices[0].message.content}")
-```
-
-## List Available Models
-
-```python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-models = client.models.list()
-for model in models.data:
-    print(f"{model.id} — owned by {model.owned_by}")
-```
-
-```bash
-curl -s https://api.brainiall.com/v1/models \
-  -H "Authorization: Bearer YOUR_KEY" | python3 -m json.tool
-```
-
-## Available Models & Pricing
-
-| Model | Provider | Input $/MTok | Output $/MTok | Context | Features |
-|-------|----------|-------------|--------------|---------|----------|
-| `claude-opus-4-6` | Anthropic | $5.00 | $25.00 | 200K | Vision, Tools, JSON |
-| `claude-sonnet-4-6` | Anthropic | $3.00 | $15.00 | 200K | Vision, Tools, JSON |
-| `claude-haiku-4-5` | Anthropic | $1.00 | $5.00 | 200K | Vision, Tools, JSON |
-| `claude-opus-4-5` | Anthropic | $15.00 | $75.00 | 200K | Vision, Tools, JSON |
-| `deepseek-r1` | DeepSeek | $1.35 | $5.40 | 128K | Reasoning, Tools |
-| `deepseek-v3` | DeepSeek | $0.27 | $1.10 | 128K | Tools, JSON |
-| `llama-3.3-70b` | Meta | $0.72 | $0.72 | 128K | Tools, JSON |
-| `llama-4-scout-17b` | Meta | $0.17 | $0.17 | 512K | Vision, Tools |
-| `llama-4-maverick-17b` | Meta | $0.20 | $0.60 | 512K | Vision, Tools |
-| `qwen3-235b` | Alibaba | $0.80 | $2.40 | 128K | Reasoning, Tools |
-| `qwen3-30b` | Alibaba | $0.13 | $0.50 | 128K | Reasoning, Tools |
-| `nova-pro` | Amazon | $0.80 | $3.20 | 300K | Vision, Tools, JSON |
-| `nova-lite` | Amazon | $0.06 | $0.24 | 300K | Vision, Tools, JSON |
-| `nova-micro` | Amazon | $0.035 | $0.14 | 128K | Tools, JSON |
-| `mistral-large-3` | Mistral | $2.00 | $6.00 | 128K | Vision, Tools, JSON |
-| `mistral-small-3` | Mistral | $0.10 | $0.30 | 128K | Vision, Tools |
-| `minimax-m2` | MiniMax | $0.50 | $2.20 | 1M | Tools, JSON |
-| `jamba-2-0-large` | AI21 | $2.00 | $8.00 | 256K | Tools, JSON |
-
-**Flex Pricing:** All models accessible at $5.99/mo flat — no usage caps within fair-use policy.
-
-## Integration Examples
-
-### Cline (VS Code Extension)
-
-In Cline settings, select "OpenAI Compatible" provider:
-- Base URL: `https://api.brainiall.com/v1`
-- API Key: `YOUR_KEY`
-- Model: `claude-sonnet-4-6`
-
-### Continue.dev
-
-Add to `~/.continue/config.yaml`:
-
-```yaml
-models:
-  - model: claude-sonnet-4-6
-    title: Brainiall Claude Sonnet
-    provider: openai
-    apiBase: https://api.brainiall.com/v1
-    apiKey: YOUR_KEY
-  - model: claude-haiku-4-5
-    title: Brainiall Claude Haiku
-    provider: openai
-    apiBase: https://api.brainiall.com/v1
-    apiKey: YOUR_KEY
-```
-
-### Aider
-
-```bash
-export OPENAI_API_BASE=https://api.brainiall.com/v1
-export OPENAI_API_KEY=YOUR_KEY
-aider --model openai/claude-sonnet-4-6
-```
-
-### Claude Code
-
-```bash
-export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-6-20250514-v1:0
-export AWS_REGION=us-east-1
-claude --model $ANTHROPIC_MODEL
-```
-
-### SillyTavern
-
-1. Go to API Connections > Chat Completion
-2. Select "Custom (OpenAI-compatible)"
-3. Custom Endpoint: `https://api.brainiall.com/v1`
-4. API Key: `YOUR_KEY`
-5. Select model from dropdown
-
-### Open WebUI
-
-```bash
-docker run -d -p 3000:8080 \
-  -e OPENAI_API_BASE_URLS="https://api.brainiall.com/v1" \
-  -e OPENAI_API_KEYS="YOUR_KEY" \
-  ghcr.io/open-webui/open-webui:main
-```
-
-### LangChain (Python)
-
-```python
-from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY",
-    model="claude-sonnet-4-6",
-    streaming=True
-)
-
-response = llm.invoke("Explain quantum computing in simple terms")
-print(response.content)
-```
-
-### LangChain with Tool Calling
-
-```python
-from langchain_openai import ChatOpenAI
-from langchain_core.tools import tool
-
-@tool
-def multiply(a: int, b: int) -> int:
-    """Multiply two numbers together."""
-    return a * b
-
-@tool
-def add(a: int, b: int) -> int:
-    """Add two numbers together."""
-    return a + b
-
-llm = ChatOpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY",
-    model="claude-sonnet-4-6"
-)
-
-llm_with_tools = llm.bind_tools([multiply, add])
-response = llm_with_tools.invoke("What is 3 * 12 + 5?")
-print(response.tool_calls)
-```
-
-### n8n
-
-1. Create a new credential: "OpenAI API" type
-2. API Key: `YOUR_KEY`
-3. Base URL: `https://api.brainiall.com/v1`
-4. Use the "Chat Model" or "OpenAI" node with your credential
-
-### Vercel AI SDK
-
-```typescript
-import { createOpenAI } from "@ai-sdk/openai";
-import { generateText } from "ai";
-
-const brainiall = createOpenAI({
-  baseURL: "https://api.brainiall.com/v1",
-  apiKey: "YOUR_KEY",
-});
-
-const { text } = await generateText({
-  model: brainiall("claude-sonnet-4-6"),
-  prompt: "Write a TypeScript function to reverse a string.",
-});
-console.log(text);
-```
-
-### CrewAI
-
-```python
-from crewai import Agent, Crew, Task
-import os
-
-os.environ["OPENAI_API_BASE"] = "https://api.brainiall.com/v1"
-os.environ["OPENAI_API_KEY"] = "YOUR_KEY"
-os.environ["OPENAI_MODEL_NAME"] = "claude-sonnet-4-6"
-
-researcher = Agent(
-    role="Researcher",
-    goal="Research and summarize topics",
-    backstory="You are a thorough researcher."
-)
-
-task = Task(
-    description="Research the latest trends in AI agents",
-    expected_output="A summary of AI agent trends",
-    agent=researcher
-)
-
-crew = Crew(agents=[researcher], tasks=[task])
-result = crew.kickoff()
-print(result)
-```
-
-## Error Handling
-
-```python
-from openai import OpenAI, APIError, RateLimitError, AuthenticationError
-
-client = OpenAI(
-    base_url="https://api.brainiall.com/v1",
-    api_key="YOUR_KEY"
-)
-
-try:
-    response = client.chat.completions.create(
-        model="claude-sonnet-4-6",
-        messages=[{"role": "user", "content": "Hello"}]
-    )
-    print(response.choices[0].message.content)
-except AuthenticationError:
-    print("Invalid API key. Check your key at brainiall.com")
-except RateLimitError:
-    print("Rate limited. Retry after a moment.")
-except APIError as e:
-    print(f"API error: {e.status_code} - {e.message}")
-```
-
-## Rate Limits
-
-| Plan | Requests/min | Models |
-|------|-------------|--------|
-| Free | 10 | All models |
-| Basic ($29/mo) | 100 | All models |
-| Pro ($79/mo) | 500 | All models |
-| Enterprise ($199/mo) | 2,000 | All models + priority |
-
-## Links
-
-- Website: [brainiall.com](https://brainiall.com)
-- API Documentation: [brainiall.com/docs-page](https://brainiall-portal.thankfulfield-a7857897.eastus.azurecontainerapps.io/docs-page)
-- Get API Key: [brainiall.com](https://brainiall.com)
-- Status: [brainiall.com/health](https://api.brainiall.com/v1/health)
-- Speech AI APIs: [github.com/fasuizu-br/speech-ai-examples](https://github.com/fasuizu-br/speech-ai-examples)
-- NLP APIs: [github.com/fasuizu-br/brainiall-nlp-api](https://github.com/fasuizu-br/brainiall-nlp-api)
-- Image APIs: [github.com/fasuizu-br/brainiall-image-api](https://github.com/fasuizu-br/brainiall-image-api)
+LangChain · LlamaIndex · Vercel AI SDK · n8n · Continue.dev · Cline · Cloudflare Workers · Next.js Edge · K8s sidecar · Docker compose · Bash CLI
 
 ## License
 
