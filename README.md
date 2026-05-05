@@ -154,9 +154,22 @@ MIT
 
 ## Recently shipped (May 2026)
 
-- 📊 [Real cost analysis: 7 LLM gateways tested with $100 budget](https://chat.brainiall.com/blog-real-cost-7-llm-gateways-tested-may-2026)
-- 🧮 [AI Subscription Savings Calculator](https://chat.brainiall.com/savings-calculator) — see your monthly savings switching to flat $5.99/mo
-- 📦 [Free embeddable widgets](https://chat.brainiall.com/widgets) — 3 cross-origin JS widgets for any site (cost calculator, badge, comparison card)
-- 🔄 [All 38+ alternatives](https://chat.brainiall.com/alternatives/) — Brainiall vs OpenAI, Anthropic, OpenRouter, Groq, LiteLLM, Portkey, Bifrost, MegaLLM, and more
+**Conversion landings** (persona-targeted entry points):
+- 🆓 [Free tier landing](https://chat.brainiall.com/free) — "free LLM API, no credit card"
+- 💰 [Flat-rate LLM API](https://chat.brainiall.com/flat-rate-llm) — "$5.99/mo predictable bill, not per-token"
+- 🔄 [OpenAI alternative](https://chat.brainiall.com/openai-alternative) — drop-in replacement positioning
+- 🇪🇺 [EU-hosted LLM API](https://chat.brainiall.com/eu-llm-api) — GDPR + AI Act compliant by default
 
-_Last updated: 2026-05-04_
+**Developer guides**:
+- 📊 [Real cost analysis: 7 LLM gateways tested with $100 budget](https://chat.brainiall.com/blog-real-cost-7-llm-gateways-tested-may-2026)
+- 🛠️ [Migrate from OpenAI to Brainiall (60-second guide)](https://chat.brainiall.com/migrate-from-openai)
+- 📝 [I shipped 100 autonomous loops with 0 customers](https://chat.brainiall.com/blog-100-loops-zero-customers-may-2026) — building-in-public
+
+**Tools** (free, embeddable):
+- 🧮 [AI Subscription Savings Calculator](https://chat.brainiall.com/savings-calculator)
+- 📦 [Embeddable widgets](https://chat.brainiall.com/widgets) — 3 cross-origin JS widgets (cost calc, badge, comparison card)
+
+**Comparisons**:
+- 🔄 [All 38+ alternatives compared](https://chat.brainiall.com/alternatives/) — Brainiall vs OpenAI, Anthropic, OpenRouter, Groq, LiteLLM, Portkey, Bifrost, MegaLLM, Helicone, and more
+
+_Last updated: 2026-05-04 (expanded with 6 new assets shipped May 4)_
